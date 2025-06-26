@@ -1,25 +1,40 @@
 package com.example.ecommerceapp.presentation.checkout
 
+import android.app.Application
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.ecommerceapp.viewmodel.CartViewModel
 import com.example.ecommerceapp.data.ClientData
+import com.example.ecommerceapp.data.local.AppDatabase
 import com.example.ecommerceapp.data.local.entity.CartItem
+import com.example.ecommerceapp.data.repository.OrderRepository
+import com.example.ecommerceapp.viewmodel.CartViewModel
+import com.example.ecommerceapp.viewmodel.OrderViewModel
+import com.example.ecommerceapp.viewmodel.OrderViewModelFactory
 
 @Composable
 fun CheckoutScreen(
     navController: NavController,
-    viewModel: CartViewModel = viewModel(),
-    onOrderConfirmed: () -> Unit
+    viewModel: CartViewModel = viewModel()
 ) {
+    // ✅ Injection manuelle du OrderViewModel avec Factory
+    val context = LocalContext.current
+    val application = context.applicationContext as Application
+    val db = AppDatabase.getDatabase(application)
+    val orderRepository = remember { OrderRepository(db.orderDao(), db.orderItemDao()) }
+
+    val orderViewModel: OrderViewModel = viewModel(
+        factory = OrderViewModelFactory(orderRepository)
+    )
+
     var name by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
@@ -54,56 +69,15 @@ fun CheckoutScreen(
                     .padding(padding),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it },
-                    label = { Text("Nom complet") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = address,
-                    onValueChange = { address = it },
-                    label = { Text("Adresse complète") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = phone,
-                    onValueChange = { phone = it },
-                    label = { Text("Téléphone") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = cardNumber,
-                    onValueChange = { cardNumber = it },
-                    label = { Text("Numéro de carte") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = cvv,
-                    onValueChange = { cvv = it },
-                    label = { Text("CVV") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth()
-                )
-                OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Email") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Nom complet") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = address, onValueChange = { address = it }, label = { Text("Adresse complète") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = phone, onValueChange = { phone = it }, label = { Text("Téléphone") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone), singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = cardNumber, onValueChange = { cardNumber = it }, label = { Text("Numéro de carte") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = cvv, onValueChange = { cvv = it }, label = { Text("CVV") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword), singleLine = true, visualTransformation = PasswordVisualTransformation(), modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(value = email, onValueChange = { email = it }, label = { Text("Email") }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email), singleLine = true, modifier = Modifier.fillMaxWidth())
 
-                if (errorMessage != null) {
-                    Text(text = errorMessage!!, color = MaterialTheme.colors.error)
+                errorMessage?.let {
+                    Text(text = it, color = MaterialTheme.colors.error)
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -116,25 +90,22 @@ fun CheckoutScreen(
                         } else {
                             errorMessage = null
 
-                            // Préparer les données client
-                            val clientData = ClientData(
-                                name = name,
-                                address = address,
-                                phone = phone,
-                                email = email
+                            val clientData = ClientData(name, address, phone, email)
+
+                            orderViewModel.placeOrder(
+                                cartItems = cartItems,
+                                clientData = clientData,
+                                onSuccess = {
+                                    viewModel.generateReceipt(clientData, cartItems)
+                                    viewModel.clearCart()
+                                    navController.navigate("orderConfirmation") {
+                                        popUpTo("cart") { inclusive = true }
+                                    }
+                                },
+                                onError = { msg ->
+                                    errorMessage = msg
+                                }
                             )
-
-
-                            // Vider le panier
-                            viewModel.clearCart()
-
-                            // Générer reçu (fonction à implémenter)
-                            viewModel.generateReceipt(clientData, cartItems)
-
-                            // Naviguer vers confirmation et vider la pile
-                            navController.navigate("orderConfirmation") {
-                                popUpTo("cart") { inclusive = true }
-                            }
                         }
                     },
                     modifier = Modifier.fillMaxWidth()

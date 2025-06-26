@@ -4,7 +4,8 @@
     "name": "Smartphone Samsung A54",
     "description": "Écran AMOLED 6.4\", 5G, 128 Go",
     "price": 2999.0,
-    "imageName": "sam_a54"
+    "imageName": "sam_a54",
+    "category": "Téléphones"
   },
 
   {
@@ -12,27 +13,31 @@
     "name": "samsang ultra 24",
     "description": "8Go RAM, SSD 512Go",
     "price": 6499.0,
-    "imageName": "ultra_22"
+    "imageName": "ultra_22",
+    "category": "Téléphones"
   },
   {
     "id": 3,
     "name": "samsang ultra 24 ",
     "description": "16Go RAM, SSD 512Go",
     "price": 6499.0,
-    "imageName": "ultra_24"
+    "imageName": "ultra_24",
+    "category": "Téléphones"
   },
   {
     "id": 4,
     "name": "Apple Watch Series 9",
     "description": "GPS, 45mm, Boîtier aluminium, Bracelet sport",
     "price": 4599.0,
-    "imageName": "w1"
+    "imageName": "w1",
+    "category": "appel whatch"
   },
   {
     "id": 5,
     "name": "Apple Watch SE (2023)",
     "description": "GPS, 44mm, Boîtier aluminium, Capteurs de base",
     "price": 2999.0,
+    "category": "appel whatch",
     "imageName": "w2"
   },
   {
@@ -40,34 +45,44 @@
     "name": "Apple Watch Ultra 2",
     "description": "GPS + Cellular, 49mm, Boîtier titane, Ultra résistante",
     "price": 7999.0,
-    "imageName": "w3"
+    "imageName": "w3",
+    "category": "appel whatch"
+
   },
   {
     "id": 7,
     "name": "DJI Mini 3 Pro",
     "description": "Caméra 4K, 34 min d'autonomie, Poids léger",
     "price": 7599.0,
-    "imageName": "drone1"
+    "imageName": "drone1",
+    "category": "drone"
+
   },
   {
     "id": 8,
     "name": "DJI Air 2S",
     "description": "Caméra 5.4K, Détection d’obstacles, GPS",
     "price": 9999.0,
-    "imageName": "drone2"
+    "imageName": "drone2",
+    "category": "drone"
+
   },
   {
     "id": 9,
     "name": "Parrot Anafi",
     "description": "Caméra 4K HDR, Zoom x2.8, Compact pliable",
     "price": 6490.0,
-    "imageName": "drone3"
+    "imageName": "drone3",
+    "category": "drone"
+
   },
   {
     "id": 10,
     "name": "Ryze Tello",
     "description": "Caméra 720p, Programmable, Pour débutants",
     "price": 1490.0,
-    "imageName": "drone4"
+    "imageName": "drone4",
+    "category": "drone"
+
   }
 ]

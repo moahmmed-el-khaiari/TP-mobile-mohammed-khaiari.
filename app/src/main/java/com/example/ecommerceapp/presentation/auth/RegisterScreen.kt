@@ -7,12 +7,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.ecommerceapp.data.User
 import com.example.ecommerceapp.viewmodel.UserViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: UserViewModel = viewModel()) {
+fun RegisterScreen(navController: NavController, viewModel: UserViewModel = viewModel()) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Column(modifier = Modifier
@@ -20,8 +22,14 @@ fun LoginScreen(navController: NavController, viewModel: UserViewModel = viewMod
         .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Connexion", style = MaterialTheme.typography.h5)
+        Text("Inscription", style = MaterialTheme.typography.h5)
 
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Nom complet") },
+            modifier = Modifier.fillMaxWidth()
+        )
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -42,23 +50,24 @@ fun LoginScreen(navController: NavController, viewModel: UserViewModel = viewMod
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            viewModel.login(
-                email, password,
+            val user = User(email = email, password = password, name = name)
+            viewModel.register(
+                user,
                 onSuccess = {
                     navController.navigate("home") {
-                        popUpTo("login") { inclusive = true }
+                        popUpTo("register") { inclusive = true }
                     }
                 },
                 onError = { msg -> errorMessage = msg }
             )
         }, modifier = Modifier.fillMaxWidth()) {
-            Text("Se connecter")
+            Text("Créer un compte")
         }
 
         TextButton(onClick = {
-            navController.navigate("register")
+            navController.navigate("login")
         }) {
-            Text("Pas de compte ? S'inscrire")
+            Text("Déjà un compte ? Se connecter")
         }
     }
 }
