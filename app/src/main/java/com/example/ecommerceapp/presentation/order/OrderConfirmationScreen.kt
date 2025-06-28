@@ -33,7 +33,7 @@ fun OrderConfirmationScreen(
             if (receipt != null) {
                 Text(text = receipt!!)
             } else {
-                Text(text = "Aucun reçu disponible.")
+                Text(text = "bein recus votre comamnde .")
             }
 
             Spacer(modifier = Modifier.weight(1f))

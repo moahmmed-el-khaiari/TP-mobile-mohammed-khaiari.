@@ -25,7 +25,7 @@ fun CheckoutScreen(
     navController: NavController,
     viewModel: CartViewModel = viewModel()
 ) {
-    // ✅ Injection manuelle du OrderViewModel avec Factory
+
     val context = LocalContext.current
     val application = context.applicationContext as Application
     val db = AppDatabase.getDatabase(application)
