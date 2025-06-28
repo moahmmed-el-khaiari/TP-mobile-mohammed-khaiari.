@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.debugImplementation
+
 plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.android.application")
@@ -38,6 +40,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
@@ -58,16 +61,43 @@ dependencies {
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
     implementation(libs.androidx.navigation.runtime.android)
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    // Jetpack Navigation Compose
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("androidx.compose.foundation:foundation:1.4.3")
+    // Material Design (Material + Material 3)
+    implementation("androidx.compose.material:material")
+    implementation(libs.androidx.material3)
 
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    // Icons étendus
+    implementation("androidx.compose.material:material-icons-extended")
+
+    // Animations
+    implementation("androidx.compose.animation:animation:1.6.1")
+
+    // Image loading
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
+    // JSON
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
+    // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    // Tooling (débogage UI)
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

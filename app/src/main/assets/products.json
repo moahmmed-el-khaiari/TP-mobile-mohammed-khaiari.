@@ -84,5 +84,39 @@
     "imageName": "drone4",
     "category": "drone"
 
+  },
+  {
+    "id": 11,
+    "name": "Canon EOS 4000D",
+    "description": "Appareil photo Reflex, 18 MP, Vidéo Full HD",
+    "price": 3590.0,
+    "imageName": "c1",
+    "category": "camera"
+  },
+  {
+    "id": 12,
+    "name": "Sony Handycam CX405",
+    "description": "Caméscope HD, Zoom optique 30x, Stabilisation intégrée",
+    "price": 2490.0,
+    "imageName": "p2",
+    "category": "camera"
+  },
+  {
+    "id": 13,
+    "name": "Samsung Galaxy Tab A8",
+    "description": "Écran 10.5\", 64 Go, Wi-Fi, Batterie 7040 mAh",
+    "price": 2890.0,
+    "imageName": "t1",
+    "category": "tablette"
+  },
+  {
+    "id": 14,
+    "name": "Apple iPad 9ᵉ génération",
+    "description": "Écran Retina 10.2\", 64 Go, Puce A13 Bionic",
+    "price": 3890.0,
+    "imageName": "t2",
+    "category": "tablette"
   }
+
+
 ]

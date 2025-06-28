@@ -1,12 +1,16 @@
 package com.example.ecommerceapp.presentation.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.ecommerceapp.R
 import com.example.ecommerceapp.data.User
 import com.example.ecommerceapp.viewmodel.UserViewModel
 
@@ -16,12 +20,21 @@ fun RegisterScreen(navController: NavController, viewModel: UserViewModel = view
     var password by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-
+    Image(
+        painter = painterResource(id = R.drawable.store_background1), // change ici selon ton image
+        contentDescription = null,
+        modifier = Modifier.fillMaxSize(),
+        contentScale = ContentScale.Crop
+    )
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
         verticalArrangement = Arrangement.Center
-    ) {
+    )
+
+
+
+    {
         Text("Inscription", style = MaterialTheme.typography.h5)
 
         OutlinedTextField(
